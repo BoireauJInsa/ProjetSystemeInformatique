@@ -31,6 +31,7 @@
 !*.dcp
 !*.vds
 !*.pb
+.jobs
 #All bd comments and layout coordinates are stored within .ui
 !*.ui
 !*.ooc
