@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #define TABLE_SIZE 256
 
 
@@ -13,7 +14,7 @@ typedef struct{
 symbol* Table[TABLE_SIZE];
 
 int ESP = 0;
-int currentPosition = -1;
+int currentPosition = 0;
 int current_depth = 0;
 
 int pushSymbol(bool type, char* name,int depth,int value){
@@ -50,16 +51,26 @@ int getSymbol(char* nom, int depth){
 
 }
 
+int get_tmp(){
+
+
+    if(Table[TABLE_SIZE-1] != NULL){
+        return (TABLE_SIZE-1);
+    }
+    return -1;
+
+}
+
 void set_tmp(bool type, char* name,int depth,int value){
 
-    Table[255] = NULL;
-    free(Table[255]);
+    Table[TABLE_SIZE-1] = NULL;
+    free(Table[TABLE_SIZE-1]);
     symbol* symb = malloc(sizeof(symbol));
         symb -> type = type;
         symb -> nom = name;
         symb -> depth = depth;
         symb -> value = value;
-    Table[255] = symb;
+    Table[TABLE_SIZE-1] = symb;
 
 }
 
