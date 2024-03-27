@@ -1,5 +1,5 @@
-void main(){
+void main(void){
     int a;
-    int b = 3;
-    a = a + b;
+    a = 3;
+    a = a+2;
 }

@@ -28,7 +28,7 @@ int pushSymbol(bool type, char* name,int depth,int value){
         symb -> value = value;
         Table[currentPosition++] = symb;
     }
-    return currentPosition;
+    return currentPosition-1;
 
 }
 

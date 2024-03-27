@@ -110,12 +110,5 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-/* "%code provides" blocks.  */
-#line 6 "lex.y"
-
-  int yylex (void);
-  void yyerror (const char *);
-
-#line 120 "lex.tab.h"
 
 #endif /* !YY_YY_LEX_TAB_H_INCLUDED  */

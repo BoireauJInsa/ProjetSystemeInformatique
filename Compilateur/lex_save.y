@@ -4,24 +4,27 @@
 #include "symbol_table.h"
 #include <stdbool.h>
 #include <string.h>
-  int yylex (void);
-  void yyerror (const char *);
+
+int yylex (void);
+void yyerror (const char *);
 %}
+
 
 %union{int n; char id[16];}
 %token<id> tID
-%token<n> tNB
+%token<n> tNB 
 %token tMAIN tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tAND tOR tNOT tIF tELSE tWHILE tPRINT tRETURN tINT tVOID tASSIGN tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA tERROR
-%type<n> val op  op_add op_sub op_mul op_div
+%type<n> val op  
 %type<id> l_id
 %%
 
 code:
-    liste_func main_func liste_func
+    l_func main l_func
 
-liste_func:
+
+l_func:
     %empty
-    | liste_func func
+    | l_func func 
 
 func:
     func_type tID tLPAR tVOID tRPAR body        
@@ -32,14 +35,15 @@ func_type:
     |tINT  
 
 args_func:
-    tINT tID 
-    | tINT tID tCOMMA args_func   
+    tINT tID  
+    | tINT tID tCOMMA args_func  
 
-main_func:
+main:
     tVOID tMAIN tLPAR tVOID tRPAR body          
-    | tVOID tMAIN tLPAR args_func tRPAR body   
+    | tVOID tMAIN tLPAR args_func tRPAR body    
+    
 body:
-    tLBRACE l_ins tRBRACE
+    tLBRACE l_ins tRBRACE 
 
 l_ins:
     %empty  
@@ -47,26 +51,24 @@ l_ins:
     | return
 
 ins:
-    dec
-    | ass
+    ass
+    | dec
     | print
     | if
     | while
 
-dec: 
-    tINT l_id tSEMI {printf("AFC %s @%d\n",$2,(pushSymbol(1,$2,1,0)));}
-    | tINT l_id tASSIGN op tSEMI
+ass: 
+    l_id tASSIGN op tSEMI {printf("AFC @%d %d\n",getSymbol($1,1),$3);}
 
 l_id:
     tID {strcpy($1,$$);}
-    | tID tCOMMA l_id   
+    | tID tCOMMA l_id   {printf("__");}
 
-op:
-    val {$$ = $1;}
-    | op_add {$$ = $1;}
-    | op_sub {$$ = $1;}
-    | op_mul {$$ = $1;}
-    | op_div {$$ = $1;}
+l_val:
+    %empty  
+    | val
+    | l_val tCOMMA val 
+
 
 val:
     tID {$$ = getSymbol($1,1);}
@@ -79,52 +81,42 @@ val:
 
 call:
     tID tLPAR l_val tRPAR   
-    | tID tLPAR tRPAR   
-l_val:
-    val
-    | val tCOMMA l_val 
 
-op_add:
-    val tADD op {printf("ADD @%d @%d @%d \n",255,$1,$3); $$ = 255;}
-
-op_sub:
-    val tSUB op
-
-op_mul:
-    val tMUL op
-
-op_div:
-    val tDIV op
-
-ass: 
-    l_id tASSIGN op tSEMI {printf("AFC @%d %d\n",getSymbol($1,1),$3);}
-
-print:
-    tPRINT tLPAR op tRPAR tSEMI    
-    | tPRINT tLPAR tRPAR tSEMI   
-
-if:
-    tIF cond body 
-    | tIF cond body tELSE body 
-
-while:
-    tWHILE cond body   
-
+dec: 
+    tINT l_id tSEMI {printf("AFC @%s @%d\n",$2,(pushSymbol(1,$2,1,0)));}
+    | tINT l_id tASSIGN op tSEMI
 cond:
     tLPAR expr_bool tRPAR   
-    | tLPAR l_cond tRPAR
+    | tLPAR l_cond tRPAR 
+
+l_cond:
+    %empty  
+    | cond l_cond 
 
 expr_bool:
     val
     | val tSYMBOLBOOL expr_bool
     | val tSYMBOLBOOL cond
 
-l_cond:
-    %empty 
-    | cond l_cond  
+if:
+    tIF cond body
+    | tIF cond body tELSE body
+
+while:
+    tWHILE cond body    
+print:
+    tPRINT tLPAR op tRPAR tSEMI  
 
 return:
     tRETURN op tSEMI  
+
+op:
+    val {$$ = $1;}
+    | val tADD op {printf("ADD @%d @%d @%d \n",255,$1,$3); $$ = 255;}
+    | val tSUB op
+    | val tMUL op
+    | val tDIV op
+
 
 tSYMBOLBOOL:
     tADD    {printf(" + ");}
