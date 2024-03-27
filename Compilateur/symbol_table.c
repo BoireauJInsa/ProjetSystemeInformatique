@@ -7,6 +7,7 @@ typedef struct{
     bool type;
     char* nom;
     int depth;
+    int value;
 } symbol;
 
 symbol* Table[TABLE_SIZE];
@@ -15,7 +16,7 @@ int ESP = 0;
 int currentPosition = -1;
 int current_depth = 0;
 
-int pushSymbol(bool type, char* name,int depth){
+int pushSymbol(bool type, char* name,int depth,int value){
 
     if(currentPosition < TABLE_SIZE-1){ 
 
@@ -23,6 +24,7 @@ int pushSymbol(bool type, char* name,int depth){
         symb -> type = type;
         symb -> nom = name;
         symb -> depth = depth;
+        symb -> value = value;
         Table[currentPosition++] = symb;
     }
     return currentPosition;
@@ -48,13 +50,16 @@ int getSymbol(char* nom, int depth){
 
 }
 
-void set_tmp(char* tmp_var){
+void set_tmp(bool type, char* name,int depth,int value){
 
     Table[255] = NULL;
     free(Table[255]);
-    char* symbol = malloc(sizeof(tmp_var));
-    symbol = tmp_var;
-    Table[255] = symbol;
+    symbol* symb = malloc(sizeof(symbol));
+        symb -> type = type;
+        symb -> nom = name;
+        symb -> depth = depth;
+        symb -> value = value;
+    Table[255] = symb;
 
 }
 

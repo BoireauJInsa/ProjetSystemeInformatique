@@ -1,10 +1,11 @@
 #ifndef SYMBOL_TABLE
 #define SYMBOL_TABLE
 
-void set(char* var);
+int pushSymbol(bool type, char* name,int depth,int value);
 
-int get(char* var);
+void popSymbol();
 
-void set_tmp(char* tmp_var);
+int getSymbol(char* nom, int depth);
 
+void set_tmp(bool type, char* name,int depth,int value);
 #endif
