@@ -3,7 +3,7 @@ default: ./lex.out
 all: test default
 
 test: default
-	cat ./samples/ok01.c | ./lex.out
+	cat ./samples/ok21.c | ./lex.out
 
 clean:
 	rm  -f *.out *.tab.c *.tab.h *.yy.c *.output
@@ -13,7 +13,7 @@ clear:
 	rm  -f *.out *.tab.c *.tab.h *.yy.c *.output
 
 %.tab.c: %.y
-	bison -t -v -d -Wcoubterexamples $^
+	bison -t -v -d -Wcounterexamples $^
 
 %.yy.c: %.l
 	flex -o $@ $^
