@@ -30,4 +30,4 @@
 !*.l
 !*.y
 !*.sh
-!/Makefile
+!*/Makefile
