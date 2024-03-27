@@ -23,15 +23,7 @@ code:
 
 l_func:
     func
-    | l_func func
-
-args_func:
-    tINT tID  {printf(" int %s ", $2);}
-    | tINT tID tCOMMA args_func   {printf(" int %s, ", $2);}
-
-main:
-    tVOID tMAIN tLPAR tVOID tRPAR body          {printf(" void <MAIN> ( void )\n _ ");}
-    | tVOID tMAIN tLPAR args_func tRPAR body    {printf(" void <MAIN> ( _ )\n _ ");}
+    | func l_func
 
 func:
     func_type tID tLPAR tVOID tRPAR body        {printf(" _ %s ( void )\n _ ", $2);}
@@ -40,6 +32,14 @@ func:
 func_type:
     tVOID   {printf(" void ");}
     |tINT   {printf(" int ");}
+
+args_func:
+    tINT tID  {printf(" int %s ", $2);}
+    | tINT tID tCOMMA args_func   {printf(" int %s, ", $2);}
+
+main:
+    tVOID tMAIN tLPAR tVOID tRPAR body          {printf(" void <MAIN> ( void )\n _ ");}
+    | tVOID tMAIN tLPAR args_func tRPAR body    {printf(" void <MAIN> ( _ )\n _ ");}
     
 body:
     tLBRACE l_ins tRBRACE {printf(" \n { \n _ \n } \n");}
@@ -56,9 +56,6 @@ ins:
     | op tSEMI {printf(" ;\n");}
     | if
     | while
-
-call:
-    tID tLPAR l_val tRPAR   {printf(" %s ( _ ) ", $1);}
 
 ass: 
     l_id tASSIGN op tSEMI {printf(" _ = _ ;\n");}
@@ -77,6 +74,9 @@ val:
     tID {printf(" %s ", $1);}
     | tNB   {printf(" %d ", $1);}
     | call
+
+call:
+    tID tLPAR l_val tRPAR   {printf(" %s ( _ ) ", $1);}
 
 dec: 
     tINT l_id tSEMI {printf(" int _;\n");}
@@ -109,14 +109,23 @@ return:
     tRETURN op tSEMI   {printf(" return _;\n");}
 
 op:
-    val tSYMBOLARIT op
-    | val
+    val
+    | op_add
+    | op_sub
+    | op_mul
+    | op_div
 
-tSYMBOLARIT:
-    tADD    {printf(" + ");}
-    | tSUB  {printf(" - ");}
-    | tMUL  {printf(" * ");}
-    | tDIV  {printf(" / ");}
+op_add:
+    op tADD op
+
+op_sub:
+    op tSUB op
+
+op_mul:
+    op tMUL op
+
+op_div:
+    op tDIV op
 
 tSYMBOLBOOL:
     tADD    {printf(" + ");}
