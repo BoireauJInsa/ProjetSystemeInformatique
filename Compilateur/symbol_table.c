@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 #define TABLE_SIZE 256
 
 
@@ -21,13 +22,16 @@ int pushSymbol(bool type, char* name,int depth,int value){
 
     if(currentPosition < TABLE_SIZE-1){ 
 
-        symbol* symb = malloc(sizeof(symbol));
-        symb -> type = type;
-        symb -> nom = name;
-        symb -> depth = depth;
-        symb -> value = value;
-        Table[currentPosition++] = symb;
+        Table[currentPosition] = malloc(sizeof(symbol));
+        Table[currentPosition] -> type = type;
+        Table[currentPosition] -> nom = name;
+        Table[currentPosition] -> depth = currentPosition;
+        Table[currentPosition] -> value = value;
+        printf("PUSH %s %d",Table[currentPosition]->nom, currentPosition);
+        currentPosition++;
+        
     }
+    printf("TAB0: %d, %s    ",Table[0]->depth ,Table[0]->nom);
     return currentPosition-1;
 
 }
@@ -39,15 +43,18 @@ void popSymbol(){
 
 }
 
-int getSymbol(char* nom, int depth){
-
-    
-    for(int i = 0; i < currentPosition; i++){
-        if(Table[i]-> depth <= depth){
-            if (!strcmp(Table[i]-> nom, nom)) return i;
+int getSymbol(char *n, int depth){
+   /* int index = 0;
+    while(index < currentPosition){
+        printf("(%d, %s,%s,%d) ,",Table[index]->depth ,Table[index]->nom, n,(strcmp(Table[index]-> nom, n)));
+        if(Table[index]-> depth <= 1000){
+            if (strcmp(Table[index]-> nom, n) == 0) return index;
         }
-    }
-    return -1;
+        index++;
+    }*/
+    int out = 0;
+    while (out < currentPosition && strcmp(Table[out]->nom, n) != 0) out++;
+    return out;
 
 }
 
@@ -65,12 +72,11 @@ void set_tmp(bool type, char* name,int depth,int value){
 
     Table[TABLE_SIZE-1] = NULL;
     free(Table[TABLE_SIZE-1]);
-    symbol* symb = malloc(sizeof(symbol));
-        symb -> type = type;
-        symb -> nom = name;
-        symb -> depth = depth;
-        symb -> value = value;
-    Table[TABLE_SIZE-1] = symb;
+    Table[TABLE_SIZE-1]  = malloc(sizeof(symbol));
+        Table[TABLE_SIZE-1] -> type = type;
+        Table[TABLE_SIZE-1]  -> nom = name;
+        Table[TABLE_SIZE-1]  -> depth = depth;
+        Table[TABLE_SIZE-1]  -> value = value;
 
 }
 

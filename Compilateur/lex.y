@@ -13,7 +13,7 @@
 %token<n> tNB
 %token tMAIN tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tAND tOR tNOT tIF tELSE tWHILE tPRINT tRETURN tINT tVOID tASSIGN tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA tERROR
 %type<n> val op  op_add op_sub op_mul op_div
-%type<id> l_id
+%type<id> dec1
 %%
 
 code:
@@ -54,12 +54,15 @@ ins:
     | while
 
 dec: 
-    tINT l_id tSEMI {printf("AFC %s @%d\n",$2,(pushSymbol(1,$2,1,0)));}
-    | tINT l_id tASSIGN op tSEMI
+    tINT dec1 decn tSEMI
 
-l_id:
-    tID {strcpy($1,$$);}
-    | tID tCOMMA l_id   
+dec1:
+    tID {printf("AFC @%d %s\n",pushSymbol(1,$1,1,0),$1);}
+    | tID tASSIGN tNB {printf("AFC @%d %s\n",pushSymbol(1,$1,1,$3),$1);}
+
+decn: tCOMMA dec1 decn
+    |%empty
+ 
 
 op:
     val {$$ = $1;}
@@ -71,33 +74,25 @@ op:
 val:
     tID {$$ = getSymbol($1,1);}
     | tNB   {
-                printf("AFC @%d %d\n",255,$1);
+                printf("AFC @%d @%d\n",255,$1);
                 set_tmp(1,"tmp",1,$1);
                 $$ = 255;
                 }
-    | call
-
-call:
-    tID tLPAR l_val tRPAR   
-    | tID tLPAR tRPAR   
-l_val:
-    val
-    | val tCOMMA l_val 
 
 op_add:
     val tADD op {printf("ADD @%d @%d @%d \n",255,$1,$3); $$ = 255;}
 
 op_sub:
-    val tSUB op
+    val tSUB op {printf("SUB @%d @%d @%d \n",255,$1,$3); $$ = 255;}
 
 op_mul:
-    val tMUL op
+    val tMUL op {printf("MUL @%d @%d @%d \n",255,$1,$3); $$ = 255;}
 
 op_div:
-    val tDIV op
+    val tDIV op {printf("DIV @%d @%d @%d \n",255,$1,$3); $$ = 255;}
 
 ass: 
-    l_id tASSIGN op tSEMI {printf("AFC @%d %d\n",getSymbol($1,1),$3);}
+    tID tASSIGN op tSEMI {printf("AFC @%d %d\n",getSymbol($1,1),$3);}
 
 print:
     tPRINT tLPAR op tRPAR tSEMI    

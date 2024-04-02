@@ -1,5 +1,5 @@
 void main(void){
-    int a;
-    a = 3;
-    a = a+2;
+    int a,b;
+    b=2;
+    
 }
