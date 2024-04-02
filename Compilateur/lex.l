@@ -39,7 +39,7 @@
 ";" {return tSEMI;}
 "," {return tCOMMA;}
 
-[a-zA-Z][a-zA-Z0-9]* {strcpy(yylval.id,yytext); return tID;}
+[a-zA-Z][a-zA-Z0-9]* {yylval.id = strdup(yytext); return tID;}
 
 [0-9]+ {yylval.n = atoi(yytext); return tNB;}
 0x[0-9a-fA-F]+ {yylval.n = strtoul(yytext,NULL,16); return tNB;}

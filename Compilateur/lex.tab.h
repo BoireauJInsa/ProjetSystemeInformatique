@@ -94,7 +94,7 @@ extern int yydebug;
 union YYSTYPE
 {
 #line 11 "lex.y"
-int n; char id[16];
+int n; char *id;
 
 #line 100 "lex.tab.h"
 

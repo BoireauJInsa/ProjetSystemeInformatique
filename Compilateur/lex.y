@@ -8,12 +8,12 @@
   void yyerror (const char *);
 %}
 
-%union{int n; char id[16];}
+%union{int n; char *id;}
 %token<id> tID
 %token<n> tNB
 %token tMAIN tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tAND tOR tNOT tIF tELSE tWHILE tPRINT tRETURN tINT tVOID tASSIGN tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA tERROR
 %type<n> val op  op_add op_sub op_mul op_div
-%type<id> dec1
+%type<id> dec1 ass
 %%
 
 code:
