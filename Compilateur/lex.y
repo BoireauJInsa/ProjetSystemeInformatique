@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "symbol_table.h"
 #include <stdbool.h>
+#include "instruction.h"
 #include <string.h>
   int yylex (void);
   void yyerror (const char *);
@@ -57,8 +58,8 @@ dec:
     tINT dec1 decn tSEMI
 
 dec1:
-    tID {printf("AFC @%d %s\n",pushSymbol(1,$1,1,0),$1);}
-    | tID tASSIGN tNB {printf("AFC @%d %s\n",pushSymbol(1,$1,1,$3),$1);}
+    tID {add_instr("AFC",to_string(pushSymbol(1,$1,1,0)),$1,"");}
+    | tID tASSIGN tNB {add_instr("AFC",to_string(pushSymbol(1,$1,1,$3)),$1,"");}
 
 decn: tCOMMA dec1 decn
     |%empty
@@ -71,23 +72,23 @@ op:
 val:
     tID {$$ = getSymbol($1,1);}
     | tNB   {
-                printf("AFC @%d @%d\n",255,$1);
+                add_instr("AFC","255",to_string($1),"");
                 set_tmp(1,"tmp",1,$1);
                 $$ = 255;
                 }
 
 multiplicative:
     val
-    |multiplicative tMUL val {printf("MUL @%d @%d @%d \n",255,$1,$3); $$ = 255;}
-    |multiplicative tDIV val {printf("DIV @%d @%d @%d \n",255,$1,$3); $$ = 255;}
+    |multiplicative tMUL val {add_instr("MUL","255",to_string($1),to_string($3)); $$ = 255;}
+    |multiplicative tDIV val {add_instr("DIV","255",to_string($1),to_string($3));$$ = 255;}
 
 additive:
     multiplicative
-    |additive tADD multiplicative {printf("ADD @%d @%d @%d \n",255,$1,$3); $$ = 255;}
-    |additive tSUB multiplicative {printf("SUB @%d @%d @%d \n",255,$1,$3); $$ = 255;}
+    |additive tADD multiplicative {add_instr("ADD","255",to_string($1),to_string($3)); $$ = 255;}
+    |additive tSUB multiplicative {add_instr("SUB","255",to_string($1),to_string($3)); $$ = 255;}
 
 ass: 
-    tID tASSIGN op tSEMI {printf("AFC @%d %d\n",getSymbol($1,1),$3);}
+    tID tASSIGN op tSEMI {add_instr("AFC",to_string(getSymbol($1,1)),to_string($3),"");}
 
 print:
     tPRINT tLPAR op tRPAR tSEMI    
@@ -135,4 +136,5 @@ void yyerror(const char *msg) {
 
 int main(void) {
   yyparse();
+  print_ti();
 }

@@ -3,7 +3,7 @@
 #include <string.h>
 #include "instruction.h"
 
-#define SIZE 1000
+#define SIZE 256
 int currentSize = 0;
 
 typedef struct {
@@ -13,16 +13,16 @@ typedef struct {
     char* arg3;
 } instr;
 
-instr* Table[SIZE];
+instr* TableInstr[SIZE];
 
 
 void add_instr(char* name, char * arg1, char * arg2, char * arg3) {
     if (currentSize >= SIZE) printf("SIZE EXCEEDED\n");
-    Table[currentSize] = malloc(sizeof(instr));
-    Table[currentSize] -> instr_name = name;
-    Table[currentSize] -> arg1 = arg1;
-    Table[currentSize] -> arg2 = arg2;
-    Table[currentSize] -> arg3 = arg3;
+    TableInstr[currentSize] = malloc(sizeof(instr));
+    TableInstr[currentSize] -> instr_name = name;
+    TableInstr[currentSize] -> arg1 = arg1;
+    TableInstr[currentSize] -> arg2 = arg2;
+    TableInstr[currentSize] -> arg3 = arg3;
     currentSize++;
 }
 
@@ -39,9 +39,14 @@ void print_ti() {
 }
 
 void print_instr(int index) {
-    printf("%d %s %s %s %s", index, Table[index]->instr_name, Table[index]->arg1, Table[index]->arg2, Table[index]->arg3);
+    printf("%d %s %s %s %s", index, TableInstr[index]->instr_name, TableInstr[index]->arg1, TableInstr[index]->arg2, TableInstr[index]->arg3);
 }
 
+char * to_string(int num){
+    char * str = malloc(sizeof(num)) ;
+    sprintf(str, "%d", num);
+    return str;
+}
 /*char * ti_to_string(int index) {
 	char * string = malloc(100);
 	char op_code = get_op_code(i);

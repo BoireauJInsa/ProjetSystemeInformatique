@@ -19,7 +19,7 @@ clear:
 	flex -o $@ $^
 
 %.out: %.yy.c %.tab.c
-	gcc -o $@ $^ symbol_table.c
+	gcc -o $@ $^ symbol_table.c instruction.c
 
 .PRECIOUS:
 	%.yy.cc %.tab.c

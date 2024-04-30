@@ -1,5 +1,5 @@
-#define SIZE 1000
-
+#ifndef INSTRUCTION
+#define INSTRUCTION
 /**
  * Add an instruction to the table
 */
@@ -19,3 +19,7 @@ void print_ti();
  * Display an instruction
 */
 void print_instr(int index);
+
+char * to_string(int num);
+
+#endif

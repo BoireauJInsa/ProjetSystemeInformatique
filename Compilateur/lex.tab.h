@@ -93,7 +93,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 11 "lex.y"
+#line 12 "lex.y"
 int n; char *id;
 
 #line 100 "lex.tab.h"
