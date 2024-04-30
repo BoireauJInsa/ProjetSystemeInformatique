@@ -27,12 +27,12 @@ int pushSymbol(bool type, char* name,int depth,int value){
         Table[currentPosition] -> nom = name;
         Table[currentPosition] -> depth = currentPosition;
         Table[currentPosition] -> value = value;
-        printf("PUSH %s %d",Table[currentPosition]->nom, currentPosition);
+        //printf("PUSH %s %d",Table[currentPosition]->nom, currentPosition);
         currentPosition++;
-        printf("%p\n", name);
+        //printf("%p\n", name);
         
     }
-    printf("TAB0: %d, %s    ",Table[0]->depth ,Table[0]->nom);
+    //printf("TAB0: %d, %s    ",Table[0]->depth ,Table[0]->nom);
     return currentPosition-1;
 
 }
@@ -45,8 +45,8 @@ void popSymbol(){
 }
 
 int getSymbol(char *n, int depth){
-        printf("%p\n", n);
-   /* int index = 0;
+    /*printf("%p\n", n);
+    int index = 0;
     while(index < currentPosition){
         printf("(%d, %s,%s,%d) ,",Table[index]->depth ,Table[index]->nom, n,(strcmp(Table[index]-> nom, n)));
         if(Table[index]-> depth <= 1000){

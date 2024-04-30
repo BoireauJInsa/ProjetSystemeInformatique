@@ -12,7 +12,7 @@
 %token<id> tID
 %token<n> tNB
 %token tMAIN tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tAND tOR tNOT tIF tELSE tWHILE tPRINT tRETURN tINT tVOID tASSIGN tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA tERROR
-%type<n> val op  op_add op_sub op_mul op_div
+%type<n> val op  multiplicative additive
 %type<id> dec1 ass
 %%
 
@@ -65,11 +65,8 @@ decn: tCOMMA dec1 decn
  
 
 op:
-    val {$$ = $1;}
-    | op_add {$$ = $1;}
-    | op_sub {$$ = $1;}
-    | op_mul {$$ = $1;}
-    | op_div {$$ = $1;}
+    additive {$$ = $1;}
+    
 
 val:
     tID {$$ = getSymbol($1,1);}
@@ -79,17 +76,15 @@ val:
                 $$ = 255;
                 }
 
-op_add:
-    val tADD op {printf("ADD @%d @%d @%d \n",255,$1,$3); $$ = 255;}
+multiplicative:
+    val
+    |multiplicative tMUL val {printf("MUL @%d @%d @%d \n",255,$1,$3); $$ = 255;}
+    |multiplicative tDIV val {printf("DIV @%d @%d @%d \n",255,$1,$3); $$ = 255;}
 
-op_sub:
-    val tSUB op {printf("SUB @%d @%d @%d \n",255,$1,$3); $$ = 255;}
-
-op_mul:
-    val tMUL op {printf("MUL @%d @%d @%d \n",255,$1,$3); $$ = 255;}
-
-op_div:
-    val tDIV op {printf("DIV @%d @%d @%d \n",255,$1,$3); $$ = 255;}
+additive:
+    multiplicative
+    |additive tADD multiplicative {printf("ADD @%d @%d @%d \n",255,$1,$3); $$ = 255;}
+    |additive tSUB multiplicative {printf("SUB @%d @%d @%d \n",255,$1,$3); $$ = 255;}
 
 ass: 
     tID tASSIGN op tSEMI {printf("AFC @%d %d\n",getSymbol($1,1),$3);}
