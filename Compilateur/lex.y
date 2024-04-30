@@ -104,11 +104,9 @@ if:
             $1 = ligne;
             } tELSE body {  int current = get_ti_size();
                 patch($1, current);}
-
-    
-                    
+               
 while:
-    tWHILE cond body   
+    tWHILE cond body {int current = get_ti_size(); patch($2, current);}  
 
 cond:
     tLPAR expr_bool tRPAR {int ligne = add_instr("JMPF","","",""); $$ = ligne;}  
@@ -116,15 +114,15 @@ cond:
 
 expr_bool:
     val {add_instr("EQ",to_string($1),"1","255");}     
-    | val tLT  val {add_instr("LT",  to_string($1), to_string($2), "255")}
-    | val tGT  val {add_instr("GT",  to_string($1), to_string($2), "255")}
-    | val tNE  val {add_instr("NE",  to_string($1), to_string($2), "255")}
-    | val tEQ  val {add_instr("EQ",  to_string($1), to_string($2), "255")}
-    | val tGE  val {add_instr("GE",  to_string($1), to_string($2), "255")}
-    | val tLE  val {add_instr("LE",  to_string($1), to_string($2), "255")}
-    | val tAND val {add_instr("AND", to_string($1), to_string($2), "255")}
-    | val tOR  val {add_instr("OR",  to_string($1), to_string($2), "255")}
-    | val tNOT val {add_instr("NOT", to_string($1), to_string($2), "255")}
+    | val tLT  val {add_instr("LT",  to_string($1), to_string($3), "255");}
+    | val tGT  val {add_instr("GT",  to_string($1), to_string($3), "255");}
+    | val tNE  val {add_instr("NE",  to_string($1), to_string($3), "255");}
+    | val tEQ  val {add_instr("EQ",  to_string($1), to_string($3), "255");}
+    | val tGE  val {add_instr("GE",  to_string($1), to_string($3), "255");}
+    | val tLE  val {add_instr("LE",  to_string($1), to_string($3), "255");}
+    | val tAND val {add_instr("AND", to_string($1), to_string($3), "255");}
+    | val tOR  val {add_instr("OR",  to_string($1), to_string($3), "255");}
+    | val tNOT val {add_instr("NOT", to_string($1), to_string($3), "255");}
 
 return:
     tRETURN op tSEMI  

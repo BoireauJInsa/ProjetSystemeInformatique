@@ -34,14 +34,14 @@ int get_ti_size() {
 
 void print_ti() {
     int i;
-    for (i = 1; i < currentSize; i++) {
+    for (i = 0; i < currentSize; i++) {
         print_instr(i);
         printf("\n");
     }
 }
 
 void print_instr(int index) {
-    printf("%d %s %s %s %s", index, TableInstr[index]->instr_name, TableInstr[index]->arg1, TableInstr[index]->arg2, TableInstr[index]->arg3);
+    printf("%d %s %s %s %s", index+1, TableInstr[index]->instr_name, TableInstr[index]->arg1, TableInstr[index]->arg2, TableInstr[index]->arg3);
 }
 
 char * to_string(int num){
