@@ -1,6 +1,10 @@
 void main(void){
-    int a,b=4,c=8;
-    a = 7;
-    b = c*a+b;
-    
+    int a;
+    int b;
+    if (1 == 2) {
+        a = 123 ;
+    } else {  
+        b = 4;
+    }
+    int c = 6;
 }

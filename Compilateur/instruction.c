@@ -16,14 +16,16 @@ typedef struct {
 instr* TableInstr[SIZE];
 
 
-void add_instr(char* name, char * arg1, char * arg2, char * arg3) {
-    if (currentSize >= SIZE) printf("SIZE EXCEEDED\n");
+int add_instr(char* name, char * arg1, char * arg2, char * arg3) {
+    if (currentSize > SIZE) printf("SIZE EXCEEDED\n");
     TableInstr[currentSize] = malloc(sizeof(instr));
     TableInstr[currentSize] -> instr_name = name;
     TableInstr[currentSize] -> arg1 = arg1;
     TableInstr[currentSize] -> arg2 = arg2;
     TableInstr[currentSize] -> arg3 = arg3;
     currentSize++;
+
+    return currentSize-1;
 }
 
 int get_ti_size() {
@@ -32,7 +34,7 @@ int get_ti_size() {
 
 void print_ti() {
     int i;
-    for (i = 0; i < currentSize; i++) {
+    for (i = 1; i < currentSize; i++) {
         print_instr(i);
         printf("\n");
     }
@@ -47,6 +49,12 @@ char * to_string(int num){
     sprintf(str, "%d", num);
     return str;
 }
+
+
+int patch(int index, int to) {
+    TableInstr[index]-> arg1 = to_string(to);
+}
+
 /*char * ti_to_string(int index) {
 	char * string = malloc(100);
 	char op_code = get_op_code(i);

@@ -3,7 +3,7 @@
 /**
  * Add an instruction to the table
 */
-void add_instr(char* nom, char* arg1, char* arg2, char* arg3);
+int add_instr(char* nom, char* arg1, char* arg2, char* arg3);
 
 /**
  * Get the size of (number of instructions in) the table
@@ -21,5 +21,7 @@ void print_ti();
 void print_instr(int index);
 
 char * to_string(int num);
+
+int patch(int index, int to);
 
 #endif

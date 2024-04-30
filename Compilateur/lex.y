@@ -10,9 +10,9 @@
 %}
 
 %union{int n; char *id;}
-%token<id> tID
-%token<n> tNB
-%token tMAIN tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tAND tOR tNOT tIF tELSE tWHILE tPRINT tRETURN tINT tVOID tASSIGN tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA tERROR
+%token<id> tID 
+%token<n> tNB tIF
+%token tMAIN tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tAND tOR tNOT tELSE tWHILE tPRINT tRETURN tINT tVOID tASSIGN tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA tERROR
 %type<n> val op  multiplicative additive
 %type<id> dec1 ass
 %%
@@ -95,8 +95,15 @@ print:
     | tPRINT tLPAR tRPAR tSEMI   
 
 if:
-    tIF cond body 
-    | tIF cond body tELSE body 
+     
+     tIF cond {int ligne = add_instr("JMPF","","",""); $1 = ligne;} 
+    body {  int current = get_ti_size();
+            patch($1, current+1);
+            int ligne = add_instr("JMP","","","");
+            $1 = ligne;
+            } tELSE 
+            body {  int current = get_ti_size();
+                    patch($1, current);}
 
 while:
     tWHILE cond body   
