@@ -54,70 +54,28 @@ char * to_string(int num){
 	return string;
 }
 
-char get_op_code(instr i) {
-    if (strcmp(i.instr_name, "ADD") == 0) {
-        return '0' + 1; 
-	}
-    else if (strcmp(i.instr_name, "MUL") == 0) {
-        return '0' + 2;
-    }
-    else if (strcmp(i.instr_name, "SUB") == 0) {
-        return '0' + 3;
-    }
-    else if (strcmp(i.instr_name, "DIV") == 0) {
-        return '0' + 4;
-    }
-    else if (strcmp(i.instr_name, "COP") == 0) {
-        return '0' + 5;
-    }
-    else if (strcmp(i.instr_name, "AFC") == 0) {
-        return '0' + 6;
-    }
-    else if (strcmp(i.instr_name, "JMP") == 0) {
-        return '0' + 7;
-    }
-    else if (strcmp(i.instr_name, "JMF") == 0) {
-        return '0' + 8;
-    }
-    else if (strcmp(i.instr_name, "LT") == 0) {
-        return '0' + 9;
-    }
-    else if (strcmp(i.instr_name, "GT") == 0) {
-        return '0' + 10;
-    }
-    else if (strcmp(i.instr_name, "EQ") == 0) {
-        return '0' + 11;
-    }
-    else if (strcmp(i.instr_name, "PRI") == 0) {
-        return '0' + 12;
-    }
-    else if (strcmp(i.instr_name, "AND") == 0) {
-        return '0' + 13;
-    }
-    else if (strcmp(i.instr_name, "OR") == 0) {
-        return '0' + 14;
-    }
-    else if (strcmp(i.instr_name, "NOT") == 0) {
-        return '0' + 15;
-    }
-    else if (strcmp(i.instr_name, "RET") == 0) {
-        return '0' + 16;
-    }
-    else if (strcmp(i.instr_name, "NE") == 0) {
-        return '0' + 17;
-    }
-    else if (strcmp(i.instr_name, "LE") == 0) {
-        return '0' + 18;
-    }
-    else if (strcmp(i.instr_name, "GE") == 0) {
-        return '0' + 19;
-    }
-    else if (strcmp(i.instr_name, "EQU") == 0) {
-        return '0' + 20;
-    }
-    else {
-        return '_';
-    }
+char get_op_code(int index) {
+         if (strcmp(Table[index] -> instr_name, "ADD") == 0) return "01";
+    else if (strcmp(Table[index] -> instr_name, "MUL") == 0) return "02";
+    else if (strcmp(Table[index] -> instr_name, "SUB") == 0) return "03";
+    else if (strcmp(Table[index] -> instr_name, "DIV") == 0) return "04";
+    //else if (strcmp(Table[index] -> instr_name, "COP") == 0) return "05";
+    else if (strcmp(Table[index] -> instr_name, "AFC") == 0) return "06";
+    else if (strcmp(Table[index] -> instr_name, "JMP") == 0) return "07";
+    else if (strcmp(Table[index] -> instr_name, "JMF") == 0) return "08";
+    else if (strcmp(Table[index] -> instr_name, "LT" ) == 0) return "09";
+    else if (strcmp(Table[index] -> instr_name, "GT" ) == 0) return "10";
+    else if (strcmp(Table[index] -> instr_name, "EQ" ) == 0) return "11";
+    else if (strcmp(Table[index] -> instr_name, "PRI") == 0) return ;
+    else if (strcmp(Table[index] -> instr_name, "AND") == 0) return ;
+    else if (strcmp(Table[index] -> instr_name, "OR" ) == 0) return ;
+    else if (strcmp(Table[index] -> instr_name, "NOT") == 0) return ;
+    else if (strcmp(Table[index] -> instr_name, "RET") == 0) return ;
+    else if (strcmp(Table[index] -> instr_name, "NE" ) == 0) return ;
+    else if (strcmp(Table[index] -> instr_name, "LE" ) == 0) return ;
+    else if (strcmp(Table[index] -> instr_name, "GE" ) == 0) return ;
+    else if (strcmp(Table[index] -> instr_name, "EQU") == 0) return;
+    else return '_';
 }
 
 void write_in_file(instr * ti) {
