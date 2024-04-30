@@ -117,11 +117,7 @@ return:
     tRETURN op tSEMI  
 
 tSYMBOLBOOL:
-    tADD    {printf(" + ");}
-    | tSUB  {printf(" - ");}
-    | tMUL  {printf(" * ");}
-    | tDIV  {printf(" / ");}
-    | tLT   {printf(" < ");}
+    tLT   {printf(" < ");}
     | tGT   {printf(" > ");}
     | tNE   {printf(" != ");}
     | tEQ   {printf(" == ");}
