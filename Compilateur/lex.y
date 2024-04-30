@@ -115,23 +115,19 @@ cond:
     
 
 expr_bool:
-    val {add_instr("EQ",to_string($1),"1","255");}
-    | val tSYMBOLBOOL expr_bool
-    | val tSYMBOLBOOL cond
+    val {add_instr("EQ",to_string($1),"1","255");}     
+    | val tLT  val {add_instr("LT",  to_string($1), to_string($2), "255")}
+    | val tGT  val {add_instr("GT",  to_string($1), to_string($2), "255")}
+    | val tNE  val {add_instr("NE",  to_string($1), to_string($2), "255")}
+    | val tEQ  val {add_instr("EQ",  to_string($1), to_string($2), "255")}
+    | val tGE  val {add_instr("GE",  to_string($1), to_string($2), "255")}
+    | val tLE  val {add_instr("LE",  to_string($1), to_string($2), "255")}
+    | val tAND val {add_instr("AND", to_string($1), to_string($2), "255")}
+    | val tOR  val {add_instr("OR",  to_string($1), to_string($2), "255")}
+    | val tNOT val {add_instr("NOT", to_string($1), to_string($2), "255")}
 
 return:
     tRETURN op tSEMI  
-
-tSYMBOLBOOL:
-    tLT   {printf(" < ");}
-    | tGT   {printf(" > ");}
-    | tNE   {printf(" != ");}
-    | tEQ   {printf(" == ");}
-    | tGE   {printf(" >= ");}
-    | tLE   {printf(" <= ");}
-    | tAND  {printf(" && ");}
-    | tOR   {printf(" || ");}
-    | tNOT  {printf(" ! ");}
 %%
 
 void yyerror(const char *msg) {
