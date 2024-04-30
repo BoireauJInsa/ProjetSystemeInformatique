@@ -13,7 +13,7 @@ clear:
 	rm  -f *.out *.tab.c *.tab.h *.yy.c *.output
 
 %.tab.c: %.y
-	bison -t -v -d -Wcounterexamples $^
+	bison -t -v -d --html -Wcounterexamples $^
 
 %.yy.c: %.l
 	flex -o $@ $^

@@ -13,7 +13,7 @@
 %token<id> tID 
 %token<n> tNB tIF
 %token tMAIN tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tAND tOR tNOT tELSE tWHILE tPRINT tRETURN tINT tVOID tASSIGN tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA tERROR
-%type<n> val op  multiplicative additive
+%type<n> val op  multiplicative additive cond
 %type<id> dec1 ass
 %%
 
@@ -40,10 +40,11 @@ main_func:
     tVOID tMAIN tLPAR tVOID tRPAR body          
     | tVOID tMAIN tLPAR args_func tRPAR body   
 body:
-    tLBRACE l_ins tRBRACE
+    tLBRACE tRBRACE
+    | tLBRACE l_ins tRBRACE
 
-l_ins:
-    %empty  
+l_ins: 
+    ins
     | ins l_ins
     | return
 
@@ -95,31 +96,28 @@ print:
     | tPRINT tLPAR tRPAR tSEMI   
 
 if:
-     
-     tIF cond {int ligne = add_instr("JMPF","","",""); $1 = ligne;} 
-    body {  int current = get_ti_size();
-            patch($1, current+1);
+    tIF cond body {int current = get_ti_size(); patch($2, current);} 
+    
+    | tIF cond body {int current = get_ti_size();
+            patch($2, current+1);
             int ligne = add_instr("JMP","","","");
             $1 = ligne;
-            } tELSE 
-            body {  int current = get_ti_size();
-                    patch($1, current);}
+            } tELSE body {  int current = get_ti_size();
+                patch($1, current);}
 
+    
+                    
 while:
     tWHILE cond body   
 
 cond:
-    tLPAR expr_bool tRPAR   
-    | tLPAR l_cond tRPAR
+    tLPAR expr_bool tRPAR {int ligne = add_instr("JMPF","","",""); $$ = ligne;}  
+    
 
 expr_bool:
-    val
+    val {add_instr("EQ",to_string($1),"1","255");}
     | val tSYMBOLBOOL expr_bool
     | val tSYMBOLBOOL cond
-
-l_cond:
-    %empty 
-    | cond l_cond  
 
 return:
     tRETURN op tSEMI  
