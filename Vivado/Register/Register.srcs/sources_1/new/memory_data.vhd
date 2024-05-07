@@ -1,7 +1,7 @@
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.numeric_std.ALL;
+use IEEE.std_logic_unsigned.ALL;
 
 
 entity memory_data is
@@ -17,26 +17,22 @@ architecture Behavioral of memory_data is
 
 type memtab is array (255 downto 0) of std_logic_vector (7 downto 0);
 signal reg : memtab;
-signal sout : std_logic_vector(7 downto 0);
 
 begin
 
-    process(addr,input,RST,RW,CLK)
+    process(CLK)
     begin
         if (CLK = '1' and CLK'event) then
-        
             if(RST = '1') then
                 reg <= (others => (others => '0'));
             else
-                if(RW = '1') then
-                    sout <= reg(to_integer(unsigned(addr)));
-                else
-                    reg(to_integer(unsigned(addr))) <= input;
+                if(RW = '0') then
+                    reg(conv_integer(addr)) <= input;
                 end if;
             end if; 
         end if;
     end process;
-        
-
+    output <= reg(conv_integer(addr));
+    
 
 end Behavioral;

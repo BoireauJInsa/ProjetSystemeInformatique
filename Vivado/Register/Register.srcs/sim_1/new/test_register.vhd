@@ -37,8 +37,8 @@ end test_register;
 architecture Behavioral of test_register is
     component Registre is
      Port (
-        A : in std_logic_vector(3 downto 0);
-        B : in std_logic_vector(3 downto 0);
+        A_addr : in std_logic_vector(3 downto 0);
+        B_addr : in std_logic_vector(3 downto 0);
         DATA : in std_logic_vector(7 downto 0);
         W_addr : in std_logic_vector(3 downto 0); 
         RST, CLK, W : in std_logic;
@@ -57,13 +57,13 @@ begin
     begin
         sA <= "1100";
         sB <= "0011";
-        sRST <='1';
+        sRST <='0';
         wait for 50 ns;
-        sRST <= '0';
+        sRST <= '1';
         sW <= '0';
         sW_addr <= "0011";
         sDATA <= "11111111";
-        wait for 10 ns;
+        wait for 70 ns;
         sW <= '1';
         wait for 1000000 ns;
     end process;

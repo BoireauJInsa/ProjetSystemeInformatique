@@ -40,7 +40,7 @@ end testBench_compteur;
 architecture bench of testBench_compteur is
 
     component compteur_8_bits is
-        Port ( CK : in STD_LOGIC;
+        Port ( CLK : in STD_LOGIC;
                SENS : in STD_LOGIC;
                EN : in STD_LOGIC;
                RST : in STD_LOGIC;

@@ -24,5 +24,18 @@ begin
             sout <= reg(to_integer(unsigned(addr)));
         end if;
     end process;
-
+    
+    output <= sout;
+    
+    
+    --on remplit la mémoire à la main pour des tests
+    
+    reg(10) <= x"06000100";
+    reg(11) <= x"06020300";
+    reg(12) <= x"05040200";
+    reg(13) <= x"01080002";
+    reg(14) <= x"02050204";
+    reg(15) <= x"03060400";
+    reg(16) <= x"0f010200";
+    
 end Behavioral;

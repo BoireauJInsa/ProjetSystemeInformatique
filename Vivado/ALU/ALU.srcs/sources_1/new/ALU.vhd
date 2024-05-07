@@ -38,8 +38,8 @@ architecture beh of ALU is
 begin
   process (A,B,Alu_Control)
   begin
-      a_ext <= X"00" & A;
-      b_ext <= X"00" & B;
+      a_ext <= "00000000" & A ;
+      b_ext <= "00000000" & B;
     case Alu_Control is
       -- "000" = Addition
       when "000" =>
@@ -69,8 +69,8 @@ begin
       end case;
       
    end process;
-      S <= result(0 to 7);
-      carry <= '1' when (result(8) = '1') else '0';
-      overflow <= '1' when (result(8 to 15) /= X"00") else '0';
-      negative <= result(7);
+      S <= result(8 to 15);
+      carry <= '1' when (result(7) = '1') else '0';
+      overflow <= '1' when (result(0 to 7) /= "00000000") else '0';
+      negative <= result(8);
 end beh;

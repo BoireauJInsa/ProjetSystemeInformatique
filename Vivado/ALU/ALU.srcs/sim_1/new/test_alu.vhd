@@ -59,24 +59,25 @@ end component ALU;
 begin
     alu_test: ALU PORT MAP (sA,sB,sS,sControl,sCarry,sOverflow,sNegative);
     
-    p1: process
+    init: process
     begin
-        sA <= x"00";
-        sB <= x"00";
-        sControl <= "000";    
-        sCarry <= '0' after 0 ns;
-        sOverflow<= '0' after 0 ns;
-        sNegative <= '0' after 0 ns;
-        wait for 100000 ns;
+        sA <= "10000000";
+        sB <= "10000000";
+        sControl <= "000" after 10 ns;    
+        wait for 10 ns;
+        sControl <= "001" after 10 ns;
+        wait for 10 ns;
+        sControl <= "010" after 10 ns; 
+        wait for 10 ns;
+        sControl <= "011" after 10 ns; 
+        wait for 10 ns;
+        sControl <= "100" after 10 ns; 
+        wait for 10 ns;
+        sControl <= "101" after 10 ns; 
+        wait for 10 ns;
+        sControl <= "110" after 10 ns; 
+        wait for 10 ns;
     end process;
     
-    p2: process
-    begin
-        wait for 100 ns;
-        sA <= x"0f";
-        sB <= x"01";
-        sControl <= (others => '0'); 
-        wait for 100000 ns;
-    end process;
     
 end bench;

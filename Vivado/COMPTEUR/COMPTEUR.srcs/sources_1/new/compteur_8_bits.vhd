@@ -26,7 +26,7 @@ use IEEE.std_logic_arith.ALL;
 
 
 entity compteur_8_bits is
-    Port ( CK : in STD_LOGIC;
+    Port ( CLK : in STD_LOGIC;
            SENS : in STD_LOGIC;
            EN : in STD_LOGIC;
            RST : in STD_LOGIC;
@@ -38,10 +38,10 @@ end compteur_8_bits;
 architecture Behavioral of compteur_8_bits is
     signal count : std_logic_vector(7 downto 0);
 begin
-    process (CK,RST,LOAD,EN,Din,SENS,count)
+    process (CLK,RST,LOAD,EN,Din,SENS,count)
         begin
-        if (CK = '1' and CK'event) then
-            if (RST = '0') then
+        if (CLK = '1' and CLK'event) then
+            if (RST = '1') then
                 count <= (others => '0');
             elsif (LOAD = '1' and EN = '0') then
                 count <= Din;
