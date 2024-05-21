@@ -249,7 +249,7 @@ MemRE: Pipeline PORT MAP(
     CLK => sCLK
 );
 
-sLC_Write <= '0' when (sPip4_op = "1000" or sPip4_op = "1111") else '1';
+sLC_Write <= '0' when (sPip4_op = "1000" or sPip4_op = "1111" or sPip4_op = "0000") else '1';
 
 
 prst: process
