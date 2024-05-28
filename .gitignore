@@ -29,5 +29,5 @@
 !*.h
 !*.l
 !*.y
-!*.sh
+!test.sh
 !*/Makefile
