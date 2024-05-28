@@ -13,8 +13,8 @@
 %token<id> tID 
 %token<n> tNB tIF
 %token tMAIN tADD tSUB tMUL tDIV tLT tGT tNE tEQ tGE tLE tAND tOR tNOT tELSE tWHILE tPRINT tRETURN tINT tVOID tASSIGN tLBRACE tRBRACE tLPAR tRPAR tSEMI tCOMMA tERROR
-%type<n> val op  multiplicative additive cond
-%type<id> dec1 ass
+%type<n> val op  multiplicative additive cond 
+%type<id> dec1 ass expr_bool
 %%
 
 code:
@@ -59,8 +59,11 @@ dec:
     tINT dec1 decn tSEMI
 
 dec1:
-    tID {add_instr("AFC",to_string(pushSymbol(1,$1,1,0)),$1,"");}
-    | tID tASSIGN tNB {add_instr("AFC",to_string(pushSymbol(1,$1,1,$3)),$1,"");}
+    tID {pushSymbol(1,$1,1,0);}
+    | tID tASSIGN tNB {
+        pushSymbol(1,$1,1,$3);
+        add_instr("AFC","255",to_string($3),"");
+        add_instr("COP",to_string(getSymbol($1,1)),"255","");}
 
 decn: tCOMMA dec1 decn
     |%empty
@@ -89,7 +92,7 @@ additive:
     |additive tSUB multiplicative {add_instr("SUB","255",to_string($1),to_string($3)); $$ = 255;}
 
 ass: 
-    tID tASSIGN op tSEMI {add_instr("AFC",to_string(getSymbol($1,1)),to_string($3),"");}
+    tID tASSIGN op tSEMI {add_instr("COP",to_string(getSymbol($1,1)),to_string($3),"");}
 
 print:
     tPRINT tLPAR op tRPAR tSEMI    
@@ -109,11 +112,11 @@ while:
     tWHILE cond body {int current = get_ti_size(); patch($2, current);}  
 
 cond:
-    tLPAR expr_bool tRPAR {int ligne = add_instr("JMPF","","",""); $$ = ligne;}  
+    tLPAR expr_bool tRPAR {int ligne = add_instr("JMPF","255",$2,""); $$ = ligne;}  
     
 
 expr_bool:
-    val {add_instr("EQ",to_string($1),"1","255");}     
+    val {add_instr("COP","255",to_string($1),"");}     
     | val tLT  val {add_instr("LT",  to_string($1), to_string($3), "255");}
     | val tGT  val {add_instr("GT",  to_string($1), to_string($3), "255");}
     | val tNE  val {add_instr("NE",  to_string($1), to_string($3), "255");}

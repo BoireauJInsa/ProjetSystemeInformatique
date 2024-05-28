@@ -52,7 +52,7 @@ char * to_string(int num){
 
 
 int patch(int index, int to) {
-    TableInstr[index]-> arg1 = to_string(to);
+    TableInstr[index]-> arg2 = to_string(to);
 }
 
 /*char * ti_to_string(int index) {
