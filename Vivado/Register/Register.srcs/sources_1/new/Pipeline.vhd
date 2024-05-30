@@ -32,7 +32,8 @@ entity Pipeline is
             Out_B : out std_logic_vector(7 downto 0);
             Out_C : out std_logic_vector(7 downto 0);
             Out_OP : out std_logic_vector(3 downto 0);
-            CLK : in std_logic);
+            CLK : in std_logic;
+            EN : in std_logic);
     
 end Pipeline;
 
@@ -42,10 +43,17 @@ begin
     process
     begin
         wait until falling_edge(CLK);
-        Out_A <= A;
-        Out_B <= B;
-        Out_C <= C;
-        Out_OP <= OP;
+        if (EN = '0') then
+            Out_A <= A;
+            Out_B <= B;
+            Out_C <= C;
+            Out_OP <= OP;
+        else
+            Out_A <= x"00";
+            Out_B <= x"00";
+            Out_C <= x"00";
+            Out_OP <= x"0";
+        end if;
         
     end process;
     

@@ -2,10 +2,12 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.std_logic_arith.all;
 
-entity Assemblage is
-end Assemblage;
+entity Processeur is PORT(
+        CLK, RST : in std_logic;
+        Qa_micro,Qb_micro : out std_logic_vector(7 downto 0));
+end Processeur;
 
-architecture Behavioral of Assemblage is
+architecture Behavioral of Processeur is
 
     component compteur_8_bits is
         Port ( CLK : in STD_LOGIC;
@@ -72,14 +74,6 @@ architecture Behavioral of Assemblage is
                 EN : in std_logic);
         
     end component;
-    
-    
-    
-    
--- signaux globaux
-
-signal sCLK, sRST : std_logic;
-signal Qa,Qb : std_logic_vector(7 downto 0);
 
 -- signaux de l'IP
  
@@ -143,10 +137,10 @@ signal mux_detector_write_exmem : std_logic;
 begin
 
 ip : compteur_8_bits PORT MAP (
-   CLK => sCLK,
+   CLK => CLK,
    SENS => '1',
    EN => sAL3,
-   RST => sRST,
+   RST => RST,
    LOAD => '0',
    Din => "00000000",
    Dout => sIP_out
@@ -166,17 +160,17 @@ LIDI : Pipeline PORT MAP(
     Out_B => sPip1_b,
     Out_C => sPip1_c,
     Out_OP => sPip1_op,
-    CLK => sCLK,
+    CLK => CLK,
     EN => '0'
 );
 
 mux_detector_write_diex <= '1' when (sPip2_op = "0001" or sPip2_op = "0010" 
 or sPip2_op = "0011" or sPip2_op = "0100" 
-or sPip2_op = "0110" or sPip2_op = "0101" or sPip2_op = "1110") else '0';
+or sPip2_op = "0110" or sPip2_op = "0101") else '0';
 
 mux_detector_write_exmem <= '1' when (sPip3_op = "0001" or sPip3_op = "0010" 
 or sPip3_op = "0011" or sPip3_op = "0100" 
-or sPip3_op = "0110" or sPip3_op = "0101" or sPip3_op = "1110") else '0';
+or sPip3_op = "0110" or sPip3_op = "0101") else '0';
 
 detector: alea_detector PORT MAP(
 
@@ -196,8 +190,8 @@ register_bank : Registre PORT MAP(
     B_addr => sPip1_c(3 downto 0),
     DATA => sPip4_b,
     W_addr => sPip4_a(3 downto 0),
-    RST => sRST,
-    CLK => sCLK,
+    RST => RST,
+    CLK => CLK,
     W => sLC_Write,
     QA => sBR_Qa,
     QB => sBR_Qb
@@ -216,7 +210,7 @@ DIEX :  Pipeline PORT MAP(
     Out_B => sPip2_b,
     Out_C => sPip2_c,
     Out_OP => sPip2_op,
-    CLK => sCLK,
+    CLK => CLK,
     EN => sAL1
 );
 
@@ -257,7 +251,7 @@ EXMem: Pipeline PORT MAP(
     Out_B => sPip3_b,
     Out_C => sPip3_c,
     Out_OP => sPip3_op,
-    CLK => sCLK,
+    CLK => CLK,
     EN => '0'
 );
 
@@ -268,8 +262,8 @@ data_memory : memory_data PORT MAP(
     addr => mux_EXMem,
     input => sPip3_b,
     RW => sLC_MD,
-    RST => sRST,
-    CLK => sCLK,
+    RST => RST,
+    CLK => CLK,
     output => sMD_out
 );
 
@@ -284,28 +278,13 @@ MemRE: Pipeline PORT MAP(
     Out_B => sPip4_b,
     Out_C => sPip4_c,
     Out_OP => sPip4_op,
-    CLK => sCLK,
+    CLK => CLK,
     EN => '0'
 );
 
 sLC_Write <= '0' when (sPip4_op = "1000" or sPip4_op = "1111" or sPip4_op = "0000") else '1';
 
+Qa_micro <= sBR_Qa;
+Qb_micro <= sBR_Qb;
 
-prst: process
-    begin
-        sRST <= '1';
-        wait for 30 ns;
-        sRST <= '0';
-        wait for 10000000 ns;
-        
-    end process;
-
-pclk: process
-    begin
-        sCLK <= '0';
-        wait for 10 ns;
-        sCLK <= '1';
-        wait for 10 ns;
-     end process;
-     
 end Behavioral;

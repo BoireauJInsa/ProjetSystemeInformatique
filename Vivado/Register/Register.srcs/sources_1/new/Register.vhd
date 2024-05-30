@@ -22,7 +22,7 @@ signal reg : ttab;
 
     begin
     
-        process(CLK)
+        process(CLK,reg)
         begin
         if (CLK = '1' and CLK'event) then
             if (RST = '1') then
