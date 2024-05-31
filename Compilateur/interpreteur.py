@@ -127,12 +127,12 @@ test_input_string = """
 7 ADD 255 1 255
 8 COP 0 255
 """
-def main():
-    parsed_lines = parse_text_file("asm.txt", 1)
-    
-    block, s = translate(parsed_lines)
-    print("Initial size : " + str(len(parsed_lines)))
-    print("Final size : " + str(s))
-    last_instr_index = print_blocks(block, 0)
-    if (last_instr_index > 255) :
-        print("WARNING : memory size")
+
+parsed_lines = parse_text_file("asm.txt", 1)
+
+block, s = translate(parsed_lines)
+print("Initial size : " + str(len(parsed_lines)))
+print("Final size : " + str(s))
+last_instr_index = print_blocks(block, 0)
+if (last_instr_index > 255) :
+    print("WARNING : memory size")
