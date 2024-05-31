@@ -137,7 +137,7 @@ test_input_string = """
 """
 
 
-parsed_lines = parse_text_file("input.txt", 1)
+parsed_lines = parse_text_file("asm.txt", 1)
 
 block, s = translate(parsed_lines)
 print("Initial size : " + str(len(parsed_lines)))

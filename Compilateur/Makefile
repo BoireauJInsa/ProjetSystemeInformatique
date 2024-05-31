@@ -1,9 +1,13 @@
 default: ./lex.out
+	
 
-all: test default
+python: 
+	python interpreteur.py
+
+all: test default python
 
 test: default
-	cat ./samples/ok21.c | ./lex.out
+	cat ./test_arith.c| ./lex.out
 
 clean:
 	rm  -f *.out *.tab.c *.tab.h *.yy.c *.output
