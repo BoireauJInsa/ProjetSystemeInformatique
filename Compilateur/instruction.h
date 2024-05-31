@@ -24,4 +24,6 @@ char * to_string(int num);
 
 int patch(int index, int to);
 
+void write_in_file();
+
 #endif

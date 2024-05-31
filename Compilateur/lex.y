@@ -139,4 +139,5 @@ void yyerror(const char *msg) {
 int main(void) {
   yyparse();
   print_ti();
+  write_in_file();
 }

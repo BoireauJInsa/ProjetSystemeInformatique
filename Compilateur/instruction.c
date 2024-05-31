@@ -55,38 +55,8 @@ int patch(int index, int to) {
     TableInstr[index]-> arg2 = to_string(to);
 }
 
-/*char * ti_to_string(int index) {
-	char * string = malloc(100);
-	char op_code = get_op_code(i);
-	sprintf(string, "%c %s %s %s", op_code, i.arg1, i.arg2, i.arg3);
-	return string;
-}
 
-char get_op_code(int index) {
-         if (strcmp(Table[index] -> instr_name, "ADD") == 0) return "01";
-    else if (strcmp(Table[index] -> instr_name, "MUL") == 0) return "02";
-    else if (strcmp(Table[index] -> instr_name, "SUB") == 0) return "03";
-    else if (strcmp(Table[index] -> instr_name, "DIV") == 0) return "04";
-    //else if (strcmp(Table[index] -> instr_name, "COP") == 0) return "05";
-    else if (strcmp(Table[index] -> instr_name, "AFC") == 0) return "06";
-    else if (strcmp(Table[index] -> instr_name, "JMP") == 0) return "07";
-    else if (strcmp(Table[index] -> instr_name, "JMF") == 0) return "08";
-    else if (strcmp(Table[index] -> instr_name, "LT" ) == 0) return "09";
-    else if (strcmp(Table[index] -> instr_name, "GT" ) == 0) return "10";
-    else if (strcmp(Table[index] -> instr_name, "EQ" ) == 0) return "11";
-    else if (strcmp(Table[index] -> instr_name, "PRI") == 0) return ;
-    else if (strcmp(Table[index] -> instr_name, "AND") == 0) return ;
-    else if (strcmp(Table[index] -> instr_name, "OR" ) == 0) return ;
-    else if (strcmp(Table[index] -> instr_name, "NOT") == 0) return ;
-    else if (strcmp(Table[index] -> instr_name, "RET") == 0) return ;
-    else if (strcmp(Table[index] -> instr_name, "NE" ) == 0) return ;
-    else if (strcmp(Table[index] -> instr_name, "LE" ) == 0) return ;
-    else if (strcmp(Table[index] -> instr_name, "GE" ) == 0) return ;
-    else if (strcmp(Table[index] -> instr_name, "EQU") == 0) return;
-    else return '_';
-}
-
-void write_in_file(instr * ti) {
+void write_in_file() {
 	FILE * fPtr;
 	fPtr = fopen("asm.txt", "w");
 	if(fPtr == NULL) {
@@ -94,8 +64,8 @@ void write_in_file(instr * ti) {
         	exit(EXIT_FAILURE);
     	}
 	int i;
-	for (i=0; i<ti_size; i++) {
-		fputs(ti_to_string(ti[i]), fPtr);
-		fputs("\n", fPtr);
+	for (i=0; i<currentSize; i++) {
+		fprintf(fPtr,"%d %s %s %s %s \n", i+1, TableInstr[i]->instr_name, TableInstr[i]->arg1, TableInstr[i]->arg2, TableInstr[i]->arg3);
 	}
-}*/
+    fclose(fPtr);
+}
