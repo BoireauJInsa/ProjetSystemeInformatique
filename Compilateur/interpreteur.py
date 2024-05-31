@@ -1,14 +1,22 @@
 def parse_text(input_text, offset):
     lines = input_text.strip().split('\n')
     parsed_lines = []
-
     for line in lines:
         parts = line.split()
-        while len(parts) < 5:
+        while len(parts) < 4 + offset:
             parts.append('')
-
         parsed_lines.append(parts[offset:])
+    return parsed_lines
 
+
+def parse_text_file(file_path, offset):
+    parsed_lines = []
+    with open(file_path, 'r') as lines:
+        for line in lines:
+            parts = line.split()
+            while len(parts) < 4 + offset:
+                parts.append('')
+            parsed_lines.append(parts[offset:])
     return parsed_lines
 
 def process_math(op, addrResult, arg1, arg2):
@@ -103,14 +111,13 @@ def translate(instrs):
 
 def print_blocks(blocks, l):
     for block in blocks:
-        print("\n")
         for instr in block:
             print("reg(" + str(l) + ") <= x\"" + instr + "\";")
             l += 1
     return l
 
 
-input_text = """
+test_input_string = """
 1 AFC 255 6
 2 COP 1 255
 3 AFC 255 8
@@ -121,8 +128,7 @@ input_text = """
 8 COP 0 255
 """
 
-
-parsed_lines = parse_text(input_text, 1)
+parsed_lines = parse_text_file("asm.txt", 1)
 
 block, s = translate(parsed_lines)
 print("Initial size : " + str(len(parsed_lines)))
