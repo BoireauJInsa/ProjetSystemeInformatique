@@ -116,6 +116,14 @@ def print_blocks(blocks, l):
             l += 1
     return l
 
+def write_to_vivado(blocks, l):
+    f = open("vivadoInput.txt", "w")
+    for block in blocks:
+        for instr in block:
+            f.write("reg(" + str(l) + ") <= x\"" + instr + "\";\n")
+            l += 1
+    f.close()
+
 
 test_input_string = """
 1 AFC 255 6
@@ -128,11 +136,16 @@ test_input_string = """
 8 COP 0 255
 """
 
-parsed_lines = parse_text_file("asm.txt", 1)
+
+parsed_lines = parse_text_file("input.txt", 1)
 
 block, s = translate(parsed_lines)
 print("Initial size : " + str(len(parsed_lines)))
 print("Final size : " + str(s))
 last_instr_index = print_blocks(block, 0)
+write_to_vivado(block, 0)
+
 if (last_instr_index > 255) :
     print("WARNING : memory size")
+
+
