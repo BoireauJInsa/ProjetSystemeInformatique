@@ -18,6 +18,7 @@ int ESP = 0;
 int currentPosition = 0;
 int current_depth = 0;
 
+// push the symbol in our table
 int pushSymbol(bool type, char* name,int depth,int value){
 
     if(currentPosition < TABLE_SIZE-1){ 
@@ -27,15 +28,13 @@ int pushSymbol(bool type, char* name,int depth,int value){
         Table[currentPosition] -> nom = name;
         Table[currentPosition] -> depth = currentPosition;
         Table[currentPosition] -> value = value;
-        //printf("PUSH %s %d",Table[currentPosition]->nom, currentPosition);
         currentPosition++;
-        //printf("%p\n", name);
         
     }
-    //printf("TAB0: %d, %s    ",Table[0]->depth ,Table[0]->nom);
     return currentPosition-1;
 
 }
+
 
 void popSymbol(){
 
@@ -44,16 +43,8 @@ void popSymbol(){
 
 }
 
+//get the index of the symbol needed
 int getSymbol(char *n, int depth){
-    /*printf("%p\n", n);
-    int index = 0;
-    while(index < currentPosition){
-        printf("(%d, %s,%s,%d) ,",Table[index]->depth ,Table[index]->nom, n,(strcmp(Table[index]-> nom, n)));
-        if(Table[index]-> depth <= 1000){
-            if (strcmp(Table[index]-> nom, n) == 0) return index;
-        }
-        index++;
-    }*/
     int out = 0;
     while (out < currentPosition && strcmp(Table[out]->nom, n) != 0) out++;
     if (out == currentPosition) out = -1;
@@ -61,8 +52,8 @@ int getSymbol(char *n, int depth){
 
 }
 
+//returns the value of the temporary variable
 int get_tmp(){
-
 
     if(Table[TABLE_SIZE-1] != NULL){
         return (TABLE_SIZE-1);
@@ -71,6 +62,7 @@ int get_tmp(){
 
 }
 
+//set the value of the temporary variable
 void set_tmp(bool type, char* name,int depth,int value){
 
     Table[TABLE_SIZE-1] = NULL;
